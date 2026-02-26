@@ -41,17 +41,60 @@
   .buyin-label { font-size: 9px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--pur); white-space: nowrap; }
   .buyin-text { font-size: 12px; font-weight: 900; text-transform: uppercase; color: var(--lilac); letter-spacing: 0.5px; }
 
-  /* MAIN CONTENT */
-  .program { flex: 1; display: flex; flex-direction: column; padding: 12px 14px 10px; gap: 10px; min-height: 0; }
-
-  /* SUPERSET LABEL */
-  .superset-label {
-    font-size: 10px; font-weight: 900; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--muted); flex-shrink: 0; text-align: center;
+  /* TIMER STRIP */
+  .timer-strip {
+    background: #0a0c14; border-bottom: 1px solid var(--border);
+    padding: 8px 14px; flex-shrink: 0;
+    display: flex; align-items: center; gap: 10px;
   }
+  .strip-display {
+    font-size: 36px; font-weight: 900; font-variant-numeric: tabular-nums;
+    color: #fff; line-height: 1; min-width: 90px;
+    transition: color 0.3s;
+  }
+  .strip-display.running { color: var(--teal); }
+  .strip-display.paused  { color: var(--pale); }
+  .strip-display.done    { color: var(--pur); }
 
-  /* ROUND ROWS — take all space */
-  .rounds-block { flex: 1; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+  .strip-middle { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .strip-modes { display: flex; gap: 5px; }
+  .smode {
+    font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+    padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);
+    background: #13151f; color: var(--muted); cursor: pointer;
+    font-family: inherit; -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+  }
+  .smode.active { background: var(--pur); border-color: var(--pur); color: #fff; }
+
+  .strip-config { display: flex; align-items: center; gap: 6px; }
+  .scfg-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .scfg-input {
+    background: #1a1f35; border: 1px solid var(--border); color: var(--text);
+    font-family: inherit; font-size: 13px; font-weight: 900; text-align: center;
+    width: 42px; padding: 4px 2px; border-radius: 6px; outline: none;
+  }
+  .scfg-input:focus { border-color: var(--pur); }
+
+  .strip-round-info { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .strip-round-info span { color: var(--text); }
+
+  .strip-btns { display: flex; flex-direction: column; gap: 6px; }
+  .sbtn {
+    border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+    font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+    -webkit-tap-highlight-color: transparent; transition: opacity 0.15s, transform 0.1s;
+    font-size: 12px; padding: 7px 12px;
+  }
+  .sbtn:active { opacity: 0.7; transform: scale(0.97); }
+  #stripStartStop { background: var(--teal); color: #0a0c14; min-width: 72px; }
+  #stripStartStop.running { background: var(--pale); }
+  #stripReset { background: #1a1f35; color: var(--muted); border: 1px solid var(--border); }
+
+  /* MAIN CONTENT */
+  .program { flex: 1; display: flex; flex-direction: column; padding: 10px 14px 8px; gap: 8px; min-height: 0; }
+  .superset-label { font-size: 10px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); flex-shrink: 0; text-align: center; }
+  .rounds-block { flex: 1; display: flex; flex-direction: column; gap: 7px; min-height: 0; }
 
   .round-row {
     flex: 1; display: flex; gap: 10px; min-height: 0;
@@ -59,10 +102,10 @@
     border: 1px solid var(--border); position: relative;
     cursor: pointer; transition: background 0.2s, border-color 0.2s;
   }
-  .round-row.active {
-    background: #1a1f35;
-    border-color: var(--pur);
-  }
+  .round-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pur); }
+  .round-row:nth-child(2)::before { background: var(--teal); }
+  .round-row:nth-child(3)::before { background: var(--pale); }
+  .round-row.active { background: #1a1f35; border-color: var(--pur); }
   .round-row:nth-child(2).active { border-color: var(--teal); background: #0f2028; }
   .round-row:nth-child(3).active { border-color: var(--pale); background: #0f1e28; }
   .round-row.active .round-ex-name { color: #fff; }
@@ -70,95 +113,26 @@
   .round-row:nth-child(2).active .badge-num { background: var(--teal); color: #0d0b12; border-color: var(--teal); }
   .round-row:nth-child(3).active .badge-num { background: var(--pale); color: #0d0b12; border-color: var(--pale); }
 
-  /* coloured left stripe per round */
-  .round-row::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 4px; background: var(--pur);
-  }
-  .round-row:nth-child(2)::before { background: var(--teal); }
-  .round-row:nth-child(3)::before { background: var(--pale); }
-
-  /* round badge */
-  .round-badge {
-    width: 48px; flex-shrink: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 2px;
-    padding-left: 4px;
-  }
-  .badge-num {
-    width: 32px; height: 32px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 900;
-    border: 2px solid var(--pur); color: var(--pur);
-  }
+  .round-badge { width: 48px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding-left: 4px; }
+  .badge-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; border: 2px solid var(--pur); color: var(--pur); }
   .round-row:nth-child(2) .badge-num { border-color: var(--teal); color: var(--teal); }
   .round-row:nth-child(3) .badge-num { border-color: var(--pale); color: var(--pale); }
   .badge-label { font-size: 8px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
 
-  /* exercise halves */
   .round-exercises { flex: 1; display: flex; gap: 0; min-width: 0; }
-
-  .round-ex {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 10px 8px; gap: 4px; min-width: 0;
-  }
-  .round-ex + .round-ex {
-    border-left: 1px solid var(--border);
-  }
-
-  .round-ex-reps {
-    font-size: clamp(32px, 9vw, 52px); font-weight: 900;
-    color: var(--lilac); line-height: 1;
-  }
+  .round-ex { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 6px; gap: 3px; min-width: 0; }
+  .round-ex + .round-ex { border-left: 1px solid var(--border); }
+  .round-ex-reps { font-size: clamp(28px, 8vw, 46px); font-weight: 900; color: var(--lilac); line-height: 1; }
   .round-row:nth-child(2) .round-ex-reps { color: var(--teal); }
   .round-row:nth-child(3) .round-ex-reps { color: var(--pale); }
+  .round-ex-name { font-size: clamp(11px, 2.8vw, 15px); font-weight: 900; text-transform: uppercase; text-align: center; line-height: 1.15; color: var(--text); word-break: break-word; }
+  .round-ex-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-  .round-ex-name {
-    font-size: clamp(12px, 3.2vw, 17px); font-weight: 900;
-    text-transform: uppercase; text-align: center;
-    line-height: 1.15; color: var(--text);
-    word-break: break-word;
-  }
-  .round-ex-label {
-    font-size: 10px; font-weight: 700; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-
-  /* BOTTOM BAR */
-  .bottom-bar { display: flex; gap: 8px; padding: 0 14px 12px; flex-shrink: 0; }
-  .btn {
-    border: none; border-radius: 10px; cursor: pointer; font-family: inherit;
-    font-weight: 900; transition: opacity 0.15s, transform 0.1s;
-    -webkit-tap-highlight-color: transparent; text-transform: uppercase; letter-spacing: 1px;
-  }
+  /* BOTTOM */
+  .bottom-bar { display: flex; gap: 8px; padding: 0 14px 10px; flex-shrink: 0; }
+  .btn { border: none; border-radius: 10px; cursor: pointer; font-family: inherit; font-weight: 900; transition: opacity 0.15s, transform 0.1s; -webkit-tap-highlight-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
   .btn:active { opacity: 0.7; transform: scale(0.97); }
-  #reloadBtn { flex: 1; background: var(--pur); color: #fff; font-size: 15px; padding: 14px; border-radius: 12px; }
-
-  /* TIMER VIEW */
-  #timerView { justify-content: flex-start; }
-  .timer-header { background: var(--pur); padding: 10px 16px 8px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-  .timer-back { background: rgba(0,0,0,0.3); border: none; border-radius: 8px; color: #fff; font-size: 18px; padding: 6px 12px; cursor: pointer; font-family: inherit; font-weight: 900; -webkit-tap-highlight-color: transparent; }
-  .timer-header-title { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
-  .timer-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 20px; }
-  .timer-display { font-size: clamp(72px, 22vw, 110px); font-weight: 900; letter-spacing: 2px; color: #fff; text-align: center; line-height: 1; font-variant-numeric: tabular-nums; }
-  .timer-display.running { color: var(--lilac); }
-  .timer-display.paused { color: var(--pale); }
-  .timer-display.done { color: var(--pur); }
-  .round-indicator { font-size: 16px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
-  .round-indicator span { color: var(--text); }
-  .timer-modes { display: flex; gap: 8px; }
-  .mode-btn { flex: 1; background: #1a1025; border: 1px solid var(--border); color: #888; font-size: 12px; padding: 10px 12px; border-radius: 10px; cursor: pointer; font-family: inherit; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s; -webkit-tap-highlight-color: transparent; }
-  .mode-btn.active { background: var(--pur); border-color: var(--pur); color: #fff; }
-  .timer-config { display: flex; gap: 10px; align-items: center; }
-  .config-label { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
-  .config-input { background: #1a1025; border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 18px; font-weight: 900; text-align: center; width: 64px; padding: 8px; border-radius: 8px; outline: none; }
-  .config-input:focus { border-color: var(--pur); }
-  .timer-controls { display: flex; gap: 12px; width: 100%; }
-  .ctrl-btn { flex: 1; border: none; border-radius: 14px; padding: 18px; font-size: 16px; font-family: inherit; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity 0.15s, transform 0.1s; }
-  .ctrl-btn:active { opacity: 0.7; transform: scale(0.97); }
-  #startStopBtn { background: var(--lilac); color: #0d0b12; font-size: 18px; }
-  #startStopBtn.running { background: var(--pale); color: #0d0b12; }
-  #resetBtn { background: #1a1025; color: #888; border: 1px solid var(--border); flex: 0 0 auto; padding: 18px 22px; }
+  #reloadBtn { flex: 1; background: var(--pur); color: #fff; font-size: 15px; padding: 13px; border-radius: 12px; }
 
   /* SETTINGS VIEW */
   #settingsView { padding: 20px 16px 16px; gap: 12px; overflow: hidden; }
@@ -185,7 +159,6 @@
     </div>
     <div class="header-btns">
       <button class="hbtn" id="settingsBtn">⚙️</button>
-      <button class="hbtn" onclick="showView('timerView')">⏱</button>
     </div>
   </div>
 
@@ -194,64 +167,52 @@
     <div class="buyin-text">500 m Row &nbsp;+&nbsp; 20 kcal Assault Bike</div>
   </div>
 
+  <!-- INLINE TIMER STRIP -->
+  <div class="timer-strip">
+    <div class="strip-display" id="stripDisplay">00:00</div>
+    <div class="strip-middle">
+      <div class="strip-modes">
+        <button class="smode active" id="sm-amrap" onclick="setMode('amrap')">AMRAP</button>
+        <button class="smode" id="sm-emom" onclick="setMode('emom')">EMOM</button>
+        <button class="smode" id="sm-tabata" onclick="setMode('tabata')">Tabata</button>
+        <button class="smode" id="sm-countup" onclick="setMode('countup')">↑</button>
+      </div>
+      <div class="strip-config">
+        <div class="scfg-label" id="scfgLabel">Min</div>
+        <input class="scfg-input" id="scfgMin" type="number" value="10" min="1" max="60">
+        <div class="scfg-label" id="scfgRndLabel">Rnds</div>
+        <input class="scfg-input" id="scfgRnds" type="number" value="3" min="1" max="20">
+        <div class="strip-round-info" id="stripRoundInfo"></div>
+      </div>
+    </div>
+    <div class="strip-btns">
+      <button class="sbtn" id="stripStartStop" onclick="toggleTimer()">Start</button>
+      <button class="sbtn" id="stripReset" onclick="resetTimer()">↺ Reset</button>
+    </div>
+  </div>
+
   <div class="program">
     <div class="superset-label">Superset · 3 Rounds</div>
     <div class="rounds-block">
-      <!-- Round 1 -->
       <div class="round-row">
-        <div class="round-badge">
-          <div class="badge-num">1</div>
-          <div class="badge-label">Rnd</div>
-        </div>
+        <div class="round-badge"><div class="badge-num">1</div><div class="badge-label">Rnd</div></div>
         <div class="round-exercises">
-          <div class="round-ex">
-            <div class="round-ex-reps" id="r1reps1"></div>
-            <div class="round-ex-name" id="r1name1"></div>
-            <div class="round-ex-label" id="r1label1"></div>
-          </div>
-          <div class="round-ex">
-            <div class="round-ex-reps" id="r1reps2"></div>
-            <div class="round-ex-name" id="r1name2"></div>
-            <div class="round-ex-label" id="r1label2"></div>
-          </div>
+          <div class="round-ex"><div class="round-ex-reps" id="r1reps1"></div><div class="round-ex-name" id="r1name1"></div><div class="round-ex-label" id="r1label1"></div></div>
+          <div class="round-ex"><div class="round-ex-reps" id="r1reps2"></div><div class="round-ex-name" id="r1name2"></div><div class="round-ex-label" id="r1label2"></div></div>
         </div>
       </div>
-      <!-- Round 2 -->
       <div class="round-row">
-        <div class="round-badge">
-          <div class="badge-num">2</div>
-          <div class="badge-label">Rnd</div>
-        </div>
+        <div class="round-badge"><div class="badge-num">2</div><div class="badge-label">Rnd</div></div>
         <div class="round-exercises">
-          <div class="round-ex">
-            <div class="round-ex-reps" id="r2reps1"></div>
-            <div class="round-ex-name" id="r2name1"></div>
-            <div class="round-ex-label" id="r2label1"></div>
-          </div>
-          <div class="round-ex">
-            <div class="round-ex-reps" id="r2reps2"></div>
-            <div class="round-ex-name" id="r2name2"></div>
-            <div class="round-ex-label" id="r2label2"></div>
-          </div>
+          <div class="round-ex"><div class="round-ex-reps" id="r2reps1"></div><div class="round-ex-name" id="r2name1"></div><div class="round-ex-label" id="r2label1"></div></div>
+          <div class="round-ex"><div class="round-ex-reps" id="r2reps2"></div><div class="round-ex-name" id="r2name2"></div><div class="round-ex-label" id="r2label2"></div></div>
         </div>
       </div>
-      <!-- Round 3 -->
       <div class="round-row">
-        <div class="round-badge">
-          <div class="badge-num">3</div>
-          <div class="badge-label">Rnd</div>
-        </div>
+        <div class="round-badge"><div class="badge-num">3</div><div class="badge-label">Rnd</div></div>
         <div class="round-exercises">
-          <div class="round-ex">
-            <div class="round-ex-reps" id="r3reps1"></div>
-            <div class="round-ex-name" id="r3name1"></div>
-            <div class="round-ex-label" id="r3label1"></div>
-          </div>
-          <div class="round-ex">
-            <div class="round-ex-reps" id="r3reps2"></div>
-            <div class="round-ex-name" id="r3name2"></div>
-            <div class="round-ex-label" id="r3label2"></div>
-          </div>
+          <div class="round-ex"><div class="round-ex-reps" id="r3reps1"></div><div class="round-ex-name" id="r3name1"></div><div class="round-ex-label" id="r3label1"></div></div>
+          <div class="round-ex"><div class="round-ex-reps" id="r3reps2"></div><div class="round-ex-name" id="r3name2"></div><div class="round-ex-label" id="r3label2"></div></div>
         </div>
       </div>
     </div>
@@ -259,34 +220,6 @@
 
   <div class="bottom-bar">
     <button class="btn" id="reloadBtn" onclick="generateWOD()">⟳ New Superset</button>
-  </div>
-</div>
-
-<!-- TIMER VIEW -->
-<div class="view hidden" id="timerView">
-  <div class="timer-header">
-    <button class="timer-back" onclick="showView('wodView')">‹</button>
-    <div class="timer-header-title">Timer</div>
-  </div>
-  <div class="timer-body">
-    <div class="round-indicator" id="roundIndicator">ROUND <span id="currentRound">1</span> / <span id="totalRounds">3</span></div>
-    <div class="timer-display" id="timerDisplay">00:00</div>
-    <div class="timer-modes">
-      <button class="mode-btn active" id="modeAmrap" onclick="setMode('amrap')">AMRAP</button>
-      <button class="mode-btn" id="modeEmom" onclick="setMode('emom')">EMOM</button>
-      <button class="mode-btn" id="modeTabata" onclick="setMode('tabata')">Tabata</button>
-      <button class="mode-btn" id="modeCountup" onclick="setMode('countup')">Count Up</button>
-    </div>
-    <div class="timer-config">
-      <div class="config-label" id="configLabel">Min</div>
-      <input class="config-input" id="configMinutes" type="number" value="10" min="1" max="60">
-      <div class="config-label">Rnds</div>
-      <input class="config-input" id="configRounds" type="number" value="3" min="1" max="20">
-    </div>
-    <div class="timer-controls">
-      <button class="ctrl-btn" id="resetBtn" onclick="resetTimer()">↺</button>
-      <button class="ctrl-btn" id="startStopBtn" onclick="toggleTimer()">Start</button>
-    </div>
   </div>
 </div>
 
@@ -325,16 +258,16 @@ function showView(id) { document.querySelectorAll('.view').forEach(v=>v.classLis
 function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 
 function setActiveRound(el) {
-  document.querySelectorAll('.round-row').forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('.round-row').forEach(r=>r.classList.remove('active'));
   el.classList.add('active');
 }
 
 function generateWOD() {
   if (exercises.length < 2) return;
   const [ex1, ex2] = shuffle(exercises);
-  const [r1, l1] = repOptions[Math.floor(Math.random()*repOptions.length)];
-  const [r2, l2] = repOptions[Math.floor(Math.random()*repOptions.length)];
-  for (let r = 1; r <= 3; r++) {
+  const [r1,l1] = repOptions[Math.floor(Math.random()*repOptions.length)];
+  const [r2,l2] = repOptions[Math.floor(Math.random()*repOptions.length)];
+  for (let r=1; r<=3; r++) {
     document.getElementById(`r${r}reps1`).textContent = r1;
     document.getElementById(`r${r}name1`).textContent = ex1;
     document.getElementById(`r${r}label1`).textContent = l1;
@@ -342,74 +275,124 @@ function generateWOD() {
     document.getElementById(`r${r}name2`).textContent = ex2;
     document.getElementById(`r${r}label2`).textContent = l2;
   }
+  document.querySelectorAll('.round-row').forEach(r=>r.classList.remove('active'));
 }
 
 // TIMER
-let timerInterval=null,timerRunning=false,elapsedSecs=0,totalSecs=0,currentRound=1,maxRounds=3,mode='amrap',tabataPhase='work',tabataSecs=0;
-const TW=20,TR=10;
-function setMode(m){
+let timerInterval=null, timerRunning=false, elapsedSecs=0, totalSecs=0;
+let currentRound=1, maxRounds=3, mode='amrap', tabataPhase='work', tabataSecs=0;
+const TW=20, TR=10;
+
+function setMode(m) {
   mode=m;
-  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('mode'+m[0].toUpperCase()+m.slice(1)).classList.add('active');
-  const cfgMin=document.getElementById('configMinutes'),cfgLabel=document.getElementById('configLabel'),ri=document.getElementById('roundIndicator');
-  if(m==='tabata'){cfgLabel.textContent='Rounds';cfgMin.style.display='none';document.getElementById('configRounds').value=8;ri.style.display='flex';}
-  else if(m==='countup'){cfgLabel.textContent='Min';cfgMin.style.display='';ri.style.display='none';}
-  else if(m==='emom'){cfgLabel.textContent='Min';cfgMin.style.display='';ri.style.display='flex';}
-  else{cfgLabel.textContent='Min';cfgMin.style.display='';ri.style.display='none';}
+  document.querySelectorAll('.smode').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`sm-${m}`).classList.add('active');
+  const cfgMin=document.getElementById('scfgMin');
+  const cfgLabel=document.getElementById('scfgLabel');
+  const rndsLabel=document.getElementById('scfgRndLabel');
+  const rndsInput=document.getElementById('scfgRnds');
+  if (m==='tabata') {
+    cfgLabel.style.display='none'; cfgMin.style.display='none';
+    rndsLabel.textContent='Rnds'; rndsInput.value=8;
+  } else if (m==='countup') {
+    cfgLabel.style.display=''; cfgMin.style.display='';
+    rndsLabel.style.display='none'; rndsInput.style.display='none';
+  } else {
+    cfgLabel.style.display=''; cfgMin.style.display='';
+    rndsLabel.style.display=''; rndsInput.style.display='';
+    cfgLabel.textContent='Min';
+  }
   resetTimer();
 }
-function fmt(s){return`${Math.floor(Math.abs(s)/60).toString().padStart(2,'0')}:${(Math.abs(s)%60).toString().padStart(2,'0')}`;}
-function updateDisplay(){
-  const el=document.getElementById('timerDisplay');
-  if(mode==='amrap'){const rem=totalSecs-elapsedSecs;el.textContent=fmt(Math.max(0,rem));el.className='timer-display'+(rem<=0?' done':timerRunning?' running':'');if(rem<=0&&timerRunning)finishTimer();}
-  else if(mode==='countup'){el.textContent=fmt(elapsedSecs);el.className='timer-display'+(timerRunning?' running':'');}
-  else if(mode==='emom'){const rem=60-(elapsedSecs%60);el.textContent=fmt(rem);currentRound=Math.floor(elapsedSecs/60)+1;document.getElementById('currentRound').textContent=Math.min(currentRound,maxRounds);el.className='timer-display'+(timerRunning?' running':'');if(elapsedSecs>=totalSecs&&timerRunning)finishTimer();}
-  else if(mode==='tabata'){el.textContent=fmt(tabataSecs);el.className='timer-display'+(tabataPhase==='rest'?' paused':timerRunning?' running':'');document.getElementById('roundIndicator').innerHTML=`<span style="color:${tabataPhase==='work'?'var(--lilac)':'var(--pale)'}">${tabataPhase==='work'?'WORK':'REST'}</span> &nbsp; ROUND <span>${Math.min(currentRound,maxRounds)}</span> / <span>${maxRounds}</span>`;}
+
+function fmt(s) { return `${Math.floor(Math.abs(s)/60).toString().padStart(2,'0')}:${(Math.abs(s)%60).toString().padStart(2,'0')}`; }
+
+function updateDisplay() {
+  const el = document.getElementById('stripDisplay');
+  const ri = document.getElementById('stripRoundInfo');
+  if (mode==='amrap') {
+    const rem = totalSecs-elapsedSecs;
+    el.textContent = fmt(Math.max(0,rem));
+    el.className = 'strip-display'+(rem<=0?' done':timerRunning?' running':'');
+    ri.textContent = '';
+    if (rem<=0&&timerRunning) finishTimer();
+  } else if (mode==='countup') {
+    el.textContent = fmt(elapsedSecs);
+    el.className = 'strip-display'+(timerRunning?' running':'');
+    ri.textContent = '';
+  } else if (mode==='emom') {
+    const rem = 60-(elapsedSecs%60);
+    el.textContent = fmt(rem);
+    currentRound = Math.floor(elapsedSecs/60)+1;
+    el.className = 'strip-display'+(timerRunning?' running':'');
+    ri.innerHTML = `RND <span>${Math.min(currentRound,maxRounds)}</span>/<span>${maxRounds}</span>`;
+    if (elapsedSecs>=totalSecs&&timerRunning) finishTimer();
+  } else if (mode==='tabata') {
+    el.textContent = fmt(tabataSecs);
+    el.className = 'strip-display'+(tabataPhase==='rest'?' paused':timerRunning?' running':'');
+    ri.innerHTML = `<span style="color:${tabataPhase==='work'?'var(--teal)':'var(--pale)'}">${tabataPhase==='work'?'WORK':'REST'}</span> ${Math.min(currentRound,maxRounds)}/${maxRounds}`;
+  }
 }
-function tick(){
-  if(mode==='tabata'){tabataSecs--;if(tabataSecs<=0){if(tabataPhase==='work'){tabataPhase='rest';tabataSecs=TR;}else{tabataPhase='work';tabataSecs=TW;currentRound++;if(currentRound>maxRounds){finishTimer();return;}}}}
-  else{elapsedSecs++;}
+
+function tick() {
+  if (mode==='tabata') {
+    tabataSecs--;
+    if (tabataSecs<=0) {
+      if (tabataPhase==='work') { tabataPhase='rest'; tabataSecs=TR; }
+      else { tabataPhase='work'; tabataSecs=TW; currentRound++; if(currentRound>maxRounds){finishTimer();return;} }
+    }
+  } else { elapsedSecs++; }
   updateDisplay();
 }
-function toggleTimer(){
-  const btn=document.getElementById('startStopBtn');
-  if(timerRunning){clearInterval(timerInterval);timerRunning=false;btn.textContent='Resume';btn.classList.remove('running');document.getElementById('timerDisplay').className='timer-display paused';}
-  else{timerRunning=true;btn.textContent='Pause';btn.classList.add('running');timerInterval=setInterval(tick,1000);updateDisplay();}
+
+function toggleTimer() {
+  const btn = document.getElementById('stripStartStop');
+  if (timerRunning) {
+    clearInterval(timerInterval); timerRunning=false;
+    btn.textContent='Resume'; btn.classList.remove('running');
+    document.getElementById('stripDisplay').className='strip-display paused';
+  } else {
+    timerRunning=true; btn.textContent='Pause'; btn.classList.add('running');
+    timerInterval=setInterval(tick,1000); updateDisplay();
+  }
 }
-function resetTimer(){
-  clearInterval(timerInterval);timerRunning=false;elapsedSecs=0;currentRound=1;tabataPhase='work';
-  const mins=parseInt(document.getElementById('configMinutes').value)||10;
-  maxRounds=parseInt(document.getElementById('configRounds').value)||3;
-  totalSecs=mins*60;tabataSecs=TW;
-  document.getElementById('startStopBtn').textContent='Start';
-  document.getElementById('startStopBtn').classList.remove('running');
-  document.getElementById('totalRounds').textContent=maxRounds;
-  document.getElementById('currentRound').textContent=1;
-  if(mode!=='tabata'){document.getElementById('roundIndicator').innerHTML=`ROUND <span id="currentRound">1</span> / <span id="totalRounds">${maxRounds}</span>`;}
+
+function resetTimer() {
+  clearInterval(timerInterval); timerRunning=false; elapsedSecs=0; currentRound=1; tabataPhase='work';
+  const mins = parseInt(document.getElementById('scfgMin').value)||10;
+  maxRounds = parseInt(document.getElementById('scfgRnds').value)||3;
+  totalSecs = mins*60; tabataSecs=TW;
+  const btn = document.getElementById('stripStartStop');
+  btn.textContent='Start'; btn.classList.remove('running');
   updateDisplay();
 }
-function finishTimer(){clearInterval(timerInterval);timerRunning=false;document.getElementById('startStopBtn').textContent='Done!';document.getElementById('startStopBtn').classList.remove('running');document.getElementById('timerDisplay').className='timer-display done';if(mode==='countup')document.getElementById('timerDisplay').textContent=fmt(elapsedSecs);}
+
+function finishTimer() {
+  clearInterval(timerInterval); timerRunning=false;
+  const btn=document.getElementById('stripStartStop');
+  btn.textContent='Done!'; btn.classList.remove('running');
+  document.getElementById('stripDisplay').className='strip-display done';
+  if (mode==='countup') document.getElementById('stripDisplay').textContent=fmt(elapsedSecs);
+}
 
 // SETTINGS
-function addRow(text=''){
-  const list=document.getElementById('exerciseList'),row=document.createElement('div');
+function addRow(text='') {
+  const list=document.getElementById('exerciseList'), row=document.createElement('div');
   row.className='ex-row';
   row.innerHTML=`<input type="text" placeholder="Exercise name…" value="${text.replace(/"/g,'&quot;')}"><button class="btn del-btn" onclick="this.parentElement.remove()">✕</button>`;
-  list.appendChild(row);if(!text)row.querySelector('input').focus();
+  list.appendChild(row); if(!text) row.querySelector('input').focus();
 }
-function saveAndClose(){
+function saveAndClose() {
   exercises=Array.from(document.querySelectorAll('#exerciseList .ex-row input')).map(i=>i.value.trim()).filter(Boolean);
-  save();showView('wodView');generateWOD();
+  save(); showView('wodView'); generateWOD();
 }
 
-async function requestWakeLock(){if('wakeLock'in navigator){try{await navigator.wakeLock.request('screen');}catch(e){}}}
-load();requestWakeLock();
+async function requestWakeLock() { if('wakeLock'in navigator){try{await navigator.wakeLock.request('screen');}catch(e){}} }
+load(); requestWakeLock();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')requestWakeLock();});
 document.getElementById('settingsBtn').onclick=()=>{document.getElementById('exerciseList').innerHTML='';exercises.forEach(e=>addRow(e));showView('settingsView');};
-document.querySelectorAll('.round-row').forEach(r => {
-  r.addEventListener('click', () => setActiveRound(r));
-});
-resetTimer();generateWOD();
+document.querySelectorAll('.round-row').forEach(r=>r.addEventListener('click',()=>setActiveRound(r)));
+resetTimer(); generateWOD();
 </script>
 </body>
 </html>
