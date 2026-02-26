@@ -44,12 +44,12 @@
   /* TIMER STRIP */
   .timer-strip {
     background: #0a0c14; border-bottom: 1px solid var(--border);
-    padding: 8px 14px; flex-shrink: 0;
-    display: flex; align-items: center; gap: 10px;
+    padding: 6px 10px; flex-shrink: 0;
+    display: flex; align-items: center; gap: 7px;
   }
   .strip-display {
-    font-size: 36px; font-weight: 900; font-variant-numeric: tabular-nums;
-    color: #fff; line-height: 1; min-width: 90px;
+    font-size: 30px; font-weight: 900; font-variant-numeric: tabular-nums;
+    color: #fff; line-height: 1; min-width: 74px;
     transition: color 0.3s;
   }
   .strip-display.running { color: var(--teal); }
@@ -57,10 +57,10 @@
   .strip-display.done    { color: var(--pur); }
 
   .strip-middle { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-  .strip-modes { display: flex; gap: 5px; }
+  .strip-modes { display: flex; gap: 4px; }
   .smode {
-    font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
-    padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);
+    font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 3px 6px; border-radius: 6px; border: 1px solid var(--border);
     background: #13151f; color: var(--muted); cursor: pointer;
     font-family: inherit; -webkit-tap-highlight-color: transparent;
     transition: all 0.15s;
@@ -71,8 +71,8 @@
   .scfg-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
   .scfg-input {
     background: #1a1f35; border: 1px solid var(--border); color: var(--text);
-    font-family: inherit; font-size: 13px; font-weight: 900; text-align: center;
-    width: 42px; padding: 4px 2px; border-radius: 6px; outline: none;
+    font-family: inherit; font-size: 12px; font-weight: 900; text-align: center;
+    width: 34px; padding: 3px 2px; border-radius: 6px; outline: none;
   }
   .scfg-input:focus { border-color: var(--pur); }
 
@@ -82,9 +82,9 @@
   .strip-btns { display: flex; flex-direction: column; gap: 6px; }
   .sbtn {
     border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
-    font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
     -webkit-tap-highlight-color: transparent; transition: opacity 0.15s, transform 0.1s;
-    font-size: 12px; padding: 7px 12px;
+    font-size: 11px; padding: 6px 10px;
   }
   .sbtn:active { opacity: 0.7; transform: scale(0.97); }
   #stripStartStop { background: var(--teal); color: #0a0c14; min-width: 72px; }
